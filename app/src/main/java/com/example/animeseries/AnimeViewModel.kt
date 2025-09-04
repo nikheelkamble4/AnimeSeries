@@ -11,6 +11,7 @@ import com.example.animeseries.repository.AnimeRepository
 import com.example.animeseries.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -37,10 +38,14 @@ class AnimeViewModel @Inject constructor(private val repository: AnimeRepository
     }
 
     private fun handleResponse(response: Response<TopAnime>): NetworkResult<TopAnime> {
-        if (response.isSuccessful) {
+        if (response.isSuccessful && response.body() != null) {
             return NetworkResult.Success(response.body())
+        } else if (response.errorBody() != null) {
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            return NetworkResult.Error(errorObj.getString("message"))
+        } else {
+            return NetworkResult.Error("Something went wrong")
         }
-        return NetworkResult.Error(response.message())
     }
 
     fun getAnimeById(id: Int) = viewModelScope.launch {
@@ -51,11 +56,13 @@ class AnimeViewModel @Inject constructor(private val repository: AnimeRepository
     }
 
     private fun handleAnimeResponse(response: Response<TopAnimes>): NetworkResult<TopAnimes> {
-        if (response.isSuccessful) {
-            Log.d("Nikheel", "handleAnimeResponse: ${response.body()}")
-            if (response.body() != null) return NetworkResult.Success(response.body())
-            else Log.d("Nikheel", "handleAnimeResponse: ${response.body()}")
+        if (response.isSuccessful && response.body() != null) {
+                return NetworkResult.Success(response.body())
+            } else if (response.errorBody() != null) {
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            return NetworkResult.Error(errorObj.getString("message"))
+        } else {
+            return NetworkResult.Error("Something went wrong")
         }
-        return NetworkResult.Error(response.message())
     }
 }
