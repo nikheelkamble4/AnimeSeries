@@ -22,3 +22,12 @@
 - Trailer embedding may fail if the YouTube URL is invalid or unavailable.
 - No dark mode toggle available.
 - Error messages are basic and use Toasts for display.
+
+---
+
+## 📱 Working App Demonstration
+### 🔗 APK File
+You can download the latest APK from the [Releases](https://github.com/nikheelkamble4/AnimeSeries/releases) section.  
+Alternatively, [click here](https://github.com/nikheelkamble4/AnimeSeries/releases/download/v1.0.0/Anime.apk) for a direct download.
+
+### 🖼️ Screenshots
