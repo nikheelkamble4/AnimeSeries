@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
@@ -39,9 +40,10 @@ import com.example.animeseries.AnimeViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewModel) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = id) {
         if (id != null) {
-            viewModel.getAnimeById(id)
+            viewModel.getAnimeById(id, context)
         }
     }
 
@@ -65,13 +67,14 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
         Surface(modifier = Modifier.padding(it)) {
             Column(modifier = Modifier.padding(4.dp)) {
                 if (anime != null) {
-                    Text(text = anime.data.title, style = MaterialTheme.typography.headlineSmall)
-                    if (anime.data.trailer.embed_url.isNotEmpty()) {
+                    Text(text = anime.title, style = MaterialTheme.typography.headlineSmall)
+                    Log.d("Nikheel", "DetailsScreeanime.trailern: ${anime.trailer}")
+                    if (anime.trailer != null) {
                         AndroidView(
                             factory = {
                                 WebView(it).apply {
                                     settings.javaScriptEnabled = true
-                                    loadUrl(anime.data.trailer.embed_url)
+                                    loadUrl(anime.trailer)
                                 }
                             },
                             modifier = Modifier
@@ -81,7 +84,7 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
                     } else {
                         Image(
                             painter = rememberImagePainter(
-                                data = anime.data.trailer.images.image_url,
+                                data = anime.image_trailer,
                                 builder = {
                                     crossfade(true)
                                     transformations(CircleCropTransformation())
@@ -96,7 +99,7 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = anime.data.synopsis,
+                            text = anime.synopsis,
                             style = MaterialTheme.typography.labelSmall
                         )
                         Text(
@@ -104,7 +107,7 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = anime.data.genres.toString(),
+                            text = anime.genres,
                             style = MaterialTheme.typography.labelSmall
                         )
                         Text(
@@ -112,7 +115,7 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = anime.data.episodes.toString(),
+                            text = anime.episodes.toString(),
                             style = MaterialTheme.typography.labelSmall
                         )
                         Text(
@@ -120,7 +123,7 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = anime.data.rating,
+                            text = anime.rating,
                             style = MaterialTheme.typography.labelSmall
                         )
                     }

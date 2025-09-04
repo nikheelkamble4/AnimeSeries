@@ -23,10 +23,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.example.animeseries.model.Data
+import com.example.animeseries.model.AnimeModel
 
 @Composable
-fun AnimeRow(item: Data, onItemClick: (Int) -> Unit) {
+fun AnimeRow(item: AnimeModel, onItemClick: (Int) -> Unit) {
     Card(modifier = Modifier.padding(4.dp)
         .fillMaxWidth()
         .clickable {
@@ -42,7 +42,7 @@ fun AnimeRow(item: Data, onItemClick: (Int) -> Unit) {
                 .size(100.dp),
                 shape = RectangleShape,
                 shadowElevation =4.dp) {
-                Image(painter = rememberImagePainter(data = item.images.jpg.image_url,
+                Image(painter = rememberImagePainter(data = item.images,
                     builder = {
                         crossfade(true)
                         transformations(CircleCropTransformation())

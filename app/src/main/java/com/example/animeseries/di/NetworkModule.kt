@@ -1,10 +1,14 @@
 package com.example.animeseries.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.animeseries.api.AnimeAPI
+import com.example.animeseries.db.AnimeDB
 import com.example.animeseries.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -48,6 +52,16 @@ class NetworkModule {
     @Provides
     fun providesAnimeAPI(retrofit: Retrofit): AnimeAPI {
         return retrofit.create(AnimeAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesAimeDB(@ApplicationContext context: Context): AnimeDB {
+        return Room.databaseBuilder(
+            context,
+            AnimeDB::class.java,
+            "AnimeDB"
+        ).build()
     }
 
 }

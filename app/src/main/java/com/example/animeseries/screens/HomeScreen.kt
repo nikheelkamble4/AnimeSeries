@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.animeseries.AnimeViewModel
@@ -39,13 +40,13 @@ fun MainContent(
     navController: NavHostController,
     viewModel: AnimeViewModel
 ) {
-
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.getTopAnimes()
+        viewModel.getTopAnimes(context)
     }
     val animeResponse by viewModel.animeResponseLiveData.observeAsState()
 
-    val list = animeResponse?.data?.data ?: emptyList()
+    val list = animeResponse?.data ?: emptyList()
 
     Surface(modifier = Modifier.padding(paddingValues),
         color = MaterialTheme.colorScheme.background) {
