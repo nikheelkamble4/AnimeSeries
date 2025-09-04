@@ -20,7 +20,7 @@ class NetworkModule {
     @Provides
     fun providesLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY // Logs full request/response
+            level = HttpLoggingInterceptor.Level.BODY
         }
     }
 

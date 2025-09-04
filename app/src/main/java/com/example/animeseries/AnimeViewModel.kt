@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.animeseries.model.Data
 import com.example.animeseries.model.TopAnime
 import com.example.animeseries.model.TopAnimes
 import com.example.animeseries.repository.AnimeRepository
@@ -43,26 +42,6 @@ class AnimeViewModel @Inject constructor(private val repository: AnimeRepository
         }
         return NetworkResult.Error(response.message())
     }
-
-    /*fun getAnimeById(id: Int) = viewModelScope.launch {
-        _animeLiveData.postValue(NetworkResult.Loading())
-        val response = repository.getAnimeById(id)
-        Log.d("Nikheel", "getAnimeById: ${response.body()}")
-    }*/
-
-    /*fun getAnimeById(id: Int) = viewModelScope.launch {
-        _animeLiveData.postValue(NetworkResult.Loading())
-        val response = repository.getAnimeById(id)
-        Log.d("Nikheel", "getAnimeById: ${response.body()}")
-        _animeLiveData.postValue(NetworkResult.Success(response.body()))
-    }*/
-
-    /*private fun handleAnimeResponse(response: Response<TopAnime>): NetworkResult<TopAnime> {
-        if (response.isSuccessful) {
-            return NetworkResult.Success(response.body())
-        }
-        return NetworkResult.Error(response.message())
-    }*/
 
     fun getAnimeById(id: Int) = viewModelScope.launch {
         _animeLiveData.postValue(NetworkResult.Loading())

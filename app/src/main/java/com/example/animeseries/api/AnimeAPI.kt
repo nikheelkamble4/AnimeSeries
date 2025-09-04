@@ -1,6 +1,5 @@
 package com.example.animeseries.api
 
-import com.example.animeseries.model.Data
 import com.example.animeseries.model.TopAnime
 import com.example.animeseries.model.TopAnimes
 import retrofit2.Response
