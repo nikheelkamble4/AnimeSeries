@@ -2,19 +2,24 @@ package com.example.animeseries.screens
 
 import android.util.Log
 import android.webkit.WebView
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -36,8 +42,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.example.animeseries.AnimeViewModel
+import com.example.animeseries.model.AnimeModel
+import com.example.animeseries.util.NetworkResult
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewModel) {
     val context = LocalContext.current
@@ -47,9 +54,31 @@ fun DetailsScreen(navController: NavController, id: Int?, viewModel: AnimeViewMo
         }
     }
 
-    val animeResponse by viewModel.animeLiveData.observeAsState()
-    val anime = animeResponse?.data
-    Log.d("Nikheel", "DetailsScreen: $anime")
+    val animeResponse by viewModel.animeDetailsLiveData.observeAsState()
+    when(animeResponse) {
+        is NetworkResult.Success<*> -> {
+            val anime = animeResponse?.data
+            AnimeDetails(anime, navController)
+        }
+        is NetworkResult.Loading<*> -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        is NetworkResult.Error<*> -> {
+            Toast.makeText(context, animeResponse?.message ?: "Unknown error", Toast.LENGTH_SHORT).show()
+        }
+        else -> Unit
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AnimeDetails(anime: AnimeModel?, navController: NavController) {
     Scaffold(topBar = {
         TopAppBar(title = {
             Row {

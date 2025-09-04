@@ -18,7 +18,6 @@ fun AnimeNavigation() {
 
     NavHost(navController = navController, startDestination = AnimeScreens.HomeScreen.name) {
         composable(route = AnimeScreens.HomeScreen.name) {
-            //Here we pass where this leads us to
             HomeScreen(navController, viewModel)
         }
 
