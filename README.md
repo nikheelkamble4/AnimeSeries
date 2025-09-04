@@ -31,3 +31,7 @@ You can download the latest APK from the [Releases](https://github.com/nikheelka
 Alternatively, [click here](https://github.com/nikheelkamble4/AnimeSeries/releases/download/v1.0.0/Anime.apk) for a direct download.
 
 ### 🖼️ Screenshots
+![Home Screen](Screenshots/1.png)
+![Home Screen](Screenshots/2.png)
+![Anime Detail](Screenshots/3.png)
+![Anime Detail](Screenshots/4.png)
