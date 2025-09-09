@@ -63,5 +63,4 @@ class NetworkModule {
             "AnimeDB"
         ).build()
     }
-
 }
